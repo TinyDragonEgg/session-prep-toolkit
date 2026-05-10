@@ -922,27 +922,26 @@ function injectStyles() {
 // Boot
 // ---------------------------------------------------------------------------
 
+Hooks.on("renderSettings", (app, html) => {
+  if (!game.user?.isGM) return;
+  const el = (html instanceof HTMLElement) ? html : (html[0] ?? html);
+  if (!el?.querySelector) return;
+  const section = el.querySelector("#settings-game")
+    ?? el.querySelector(".settings-list")
+    ?? el.querySelector("section")
+    ?? el;
+  if (section.querySelector(".spt-sidebar-btn")) return;
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "spt-sidebar-btn";
+  btn.textContent = "Tiny's Session Prep";
+  btn.style.cssText = "margin-top:6px;width:100%;";
+  btn.addEventListener("click", () => { injectStyles(); if (window._sptSidebar) window._sptSidebar.render({ force: true }); else new SPTSidebar().render({ force: true }); });
+  section.appendChild(btn);
+});
+
 Hooks.once("init", () => {
-  registerSettings();
-
-  Hooks.on("renderSettings", (app, html) => {
-    if (!game.user?.isGM) return;
-    const el = (html instanceof HTMLElement) ? html : (html[0] ?? html);
-    if (!el?.querySelector) return;
-    const section = el.querySelector("#settings-game")
-      ?? el.querySelector(".settings-list")
-      ?? el.querySelector("section")
-      ?? el;
-    if (section.querySelector(".spt-sidebar-btn")) return;
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "spt-sidebar-btn";
-    btn.textContent = "Tiny's Session Prep";
-    btn.style.cssText = "margin-top:6px;width:100%;";
-    btn.addEventListener("click", () => { injectStyles(); if (window._sptSidebar) window._sptSidebar.render({ force: true }); else new SPTSidebar().render({ force: true }); });
-    section.appendChild(btn);
-  });
-
+  try { registerSettings(); } catch(e) { console.error("[Session Prep] registerSettings failed:", e); }
   SPT.log("info", "Init", "Module init.");
 });
 
