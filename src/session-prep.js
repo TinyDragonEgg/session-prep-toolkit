@@ -64,6 +64,17 @@ const SPT = {
 // ---------------------------------------------------------------------------
 
 function registerSettings() {
+  game.settings.registerMenu(MODULE_ID, "launcher", {
+    name: "Open Session Prep Toolkit",
+    label: "Open",
+    hint: "Launch Tiny's Session Prep Toolkit.",
+    icon: "fas fa-book-open",
+    type: class extends Application {
+      render() { injectStyles(); if (window._sptSidebar) window._sptSidebar.render({ force: true }); else new SPTSidebar().render({ force: true }); }
+    },
+    restricted: true,
+  });
+
   const defs = [
     { key: "logLevel",           name: "Log Level",              type: String,  default: "warn",  choices: { error:"Error", warn:"Warn", info:"Info", debug:"Debug", verbose:"Verbose" } },
     { key: "dryRun",             name: "Dry Run Mode",           type: Boolean, default: false,   hint: "Prevent all document writes. Logs what would happen instead." },
@@ -911,7 +922,29 @@ function injectStyles() {
 // Boot
 // ---------------------------------------------------------------------------
 
-Hooks.once("init",  () => { registerSettings(); SPT.log("info", "Init", "Module init."); });
+Hooks.once("init", () => {
+  registerSettings();
+
+  Hooks.on("renderSettings", (app, html) => {
+    if (!game.user?.isGM) return;
+    const el = (html instanceof HTMLElement) ? html : (html[0] ?? html);
+    if (!el?.querySelector) return;
+    const section = el.querySelector("#settings-game")
+      ?? el.querySelector(".settings-list")
+      ?? el.querySelector("section")
+      ?? el;
+    if (section.querySelector(".spt-sidebar-btn")) return;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "spt-sidebar-btn";
+    btn.textContent = "Tiny's Session Prep";
+    btn.style.cssText = "margin-top:6px;width:100%;";
+    btn.addEventListener("click", () => { injectStyles(); if (window._sptSidebar) window._sptSidebar.render({ force: true }); else new SPTSidebar().render({ force: true }); });
+    section.appendChild(btn);
+  });
+
+  SPT.log("info", "Init", "Module init.");
+});
 
 Hooks.once("ready", () => {
   if (!game.user.isGM) return;
@@ -920,11 +953,11 @@ Hooks.once("ready", () => {
 
   const sidebar = new SPTSidebar();
   window._sptSidebar = sidebar;
-  sidebar.render(true);
+  sidebar.render({ force: true });
 
   game.modules.get(MODULE_ID).api = {
-    open:      () => sidebar.render(true),
-    openFull:  () => new SPTFullWindow().render(true),
+    open:      () => sidebar.render({ force: true }),
+    openFull:  () => new SPTFullWindow().render({ force: true }),
     getState,
     pushNote,
     SPT,
