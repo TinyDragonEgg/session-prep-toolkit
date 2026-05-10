@@ -321,17 +321,15 @@ function _startTimerTick() {
 // Sidebar ApplicationV2
 // ---------------------------------------------------------------------------
 
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+const { ApplicationV2 } = foundry.applications.api;
 
-class SPTSidebar extends HandlebarsApplicationMixin(ApplicationV2) {
+class SPTSidebar extends ApplicationV2 {
   static DEFAULT_OPTIONS = {
     id: "spt-sidebar",
     classes: ["spt-sidebar"],
     window: { title: "Session Prep", resizable: false, minimizable: true },
     position: { width: 300, height: "auto", top: 80, left: window.innerWidth - 320 },
   };
-
-  static PARTS = { main: { template: null } };
 
   constructor() {
     super({});
@@ -745,15 +743,13 @@ class SPTSidebar extends HandlebarsApplicationMixin(ApplicationV2) {
 // Full prep window (stub for Pass 2)
 // ---------------------------------------------------------------------------
 
-class SPTFullWindow extends HandlebarsApplicationMixin(ApplicationV2) {
+class SPTFullWindow extends ApplicationV2 {
   static DEFAULT_OPTIONS = {
     id: "spt-full",
     classes: ["spt-full"],
     window: { title: "Session Prep — Full", resizable: true },
     position: { width: 860, height: 680 },
   };
-
-  static PARTS = { main: { template: null } };
 
   async _renderHTML() {
     const el = document.createElement("div");

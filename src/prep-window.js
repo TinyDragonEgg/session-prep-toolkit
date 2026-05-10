@@ -98,17 +98,15 @@ function generateName(style = "Generic Fantasy", gender = "neutral") {
 // Full Prep Window — replaces the stub from Pass 1
 // ---------------------------------------------------------------------------
 
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+const { ApplicationV2 } = foundry.applications.api;
 
-class SPTFullWindow extends HandlebarsApplicationMixin(ApplicationV2) {
+class SPTFullWindow extends ApplicationV2 {
   static DEFAULT_OPTIONS = {
     id: "spt-full",
     classes: ["spt-full"],
     window: { title: "Session Prep — Full Window", resizable: true },
     position: { width: 900, height: 700 },
   };
-
-  static PARTS = { main: { template: null } };
 
   constructor() {
     super({});
