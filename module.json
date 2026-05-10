@@ -1,6 +1,6 @@
 {
   "id": "session-prep-toolkit",
-  "title": "Session Prep Toolkit",
+  "title": "Tiny's Session Prep Toolkit",
   "description": "GM-only live session assistant. Sidebar with live notes, item tracker, loot logger, condition tracker, tension timers, table roller, full prep window, AI tools, and soundboard.",
   "version": "{{version}}",
   "compatibility": { "minimum": "13", "verified": "13" },

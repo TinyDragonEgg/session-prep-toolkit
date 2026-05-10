@@ -104,7 +104,7 @@ class SPTFullWindow extends ApplicationV2 {
   static DEFAULT_OPTIONS = {
     id: "spt-full",
     classes: ["spt-full"],
-    window: { title: "Session Prep — Full Window", resizable: true },
+    window: { title: "Tiny's Session Prep — Full Window", resizable: true },
     position: { width: 900, height: 700 },
   };
 

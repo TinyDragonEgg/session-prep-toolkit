@@ -327,7 +327,7 @@ class SPTSidebar extends ApplicationV2 {
   static DEFAULT_OPTIONS = {
     id: "spt-sidebar",
     classes: ["spt-sidebar"],
-    window: { title: "Session Prep", resizable: false, minimizable: true },
+    window: { title: "Tiny's Session Prep", resizable: false, minimizable: true },
     position: { width: 300, height: "auto", top: 80, left: window.innerWidth - 320 },
   };
 
@@ -747,7 +747,7 @@ class SPTFullWindow extends ApplicationV2 {
   static DEFAULT_OPTIONS = {
     id: "spt-full",
     classes: ["spt-full"],
-    window: { title: "Session Prep — Full", resizable: true },
+    window: { title: "Tiny's Session Prep — Full", resizable: true },
     position: { width: 860, height: 680 },
   };
 
